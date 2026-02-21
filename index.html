@@ -1,23 +1,373 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <title>Home</title>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width" />
-    <!--
-      Need a visual blank slate?
-      Remove all code in `styles.css`!
-    -->
-    <link rel="stylesheet" href="styles.css" />
-    <script type="module" src="script.js"></script>
-  </head>
-  <body>
-    <nav>
-      <a href="/" aria-current="page">Home</a>
-      <a href="/page2.html">Other page</a>
-    </nav>
+
+
+    <!-- JSON-LD (검색 엔진 구조화 데이터) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "중고렌트카 전문 비교센터",
+      "url": "https://yourdomain.com",
+      "description": "2026년 최신 중고렌트카 가격 비교 및 구매 가이드. 믿을 수 있는 전문 업체 추천으로 투명한 거래를 약속합니다.",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://yourdomain.com/?s={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    }
+    </script>
+    
+    <!-- 디자인 스타일링 (기존 딱딱한 레이아웃 탈피, 부드러운 색감 적용) -->
+    <style>
+        /* 기본 폰트 및 레이아웃 설정 */
+        body { font-family: 'Malgun Gothic', '맑은 고딕', sans-serif; margin: 0; padding: 0; background-color: #f8f9fa; color: #333; line-height: 1.6; }
+        header { background-color: #fff; border-bottom: 1px solid #ddd; padding: 20px 0; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05); }
+        h1 { font-size: 2.5em; color: #2c3e50; margin-bottom: 10px; text-align: center; }
+        h2 { font-size: 2em; color: #34495e; margin-top: 40px; border-left: 5px solid #3498db; padding-left: 10px; margin-bottom: 20px; font-weight: 700; }
+        h3 { font-size: 1.5em; color: #34495e; margin-top: 30px; margin-bottom: 15px; border-bottom: 2px solid #ecf0f1; padding-bottom: 5px; }
+        main { width: 90%; max-width: 1200px; margin: 20px auto; background-color: #fff; padding: 30px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08); }
+        section { padding: 30px 0; border-bottom: 1px solid #eee; }
+        section:last-child { border-bottom: none; }
+
+        /* 내비게이션 스타일 */
+        nav ul { list-style: none; padding: 0; margin: 0; display: flex; justify-content: center; background-color: #f1f1f1; border-radius: 5px; }
+        nav li { margin: 0 15px; }
+        nav a { display: block; padding: 15px 20px; text-decoration: none; color: #333; font-weight: 600; transition: color 0.3s ease, background-color 0.3s ease; }
+        nav a:hover { color: #fff; background-color: #3498db; border-radius: 5px; }
+
+        /* 폼 스타일 */
+        .form-container { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 20px; background-color: #f7f9fc; padding: 30px; border-radius: 8px; box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.05); }
+        .form-group { flex-basis: calc(50% - 10px); display: flex; flex-direction: column; }
+        .form-group label { margin-bottom: 8px; font-weight: 600; color: #555; font-size: 0.95em; }
+        .form-group input, .form-group select { padding: 12px; border: 1px solid #ccc; border-radius: 6px; font-size: 1em; }
+        .form-group input:focus, .form-group select:focus { border-color: #3498db; outline: none; box-shadow: 0 0 5px rgba(52, 152, 219, 0.5); }
+        .submit-button { background-color: #e67e22; color: #fff; padding: 15px; border: none; border-radius: 6px; font-size: 1.1em; cursor: pointer; transition: background-color 0.3s ease; width: 100%; margin-top: 20px; font-weight: 700; }
+        .submit-button:hover { background-color: #d35400; }
+
+        /* 표 스타일 */
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 0.9em; }
+        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+        th { background-color: #f2f2f2; font-weight: 700; color: #444; }
+        tr:nth-child(even) { background-color: #f9f9f9; }
+        tr:hover { background-color: #f0f0f0; }
+
+        /* FAQ 스타일 (아코디언) */
+        dl dt { font-weight: 700; cursor: pointer; padding: 15px; background-color: #f7f7f7; border-bottom: 1px solid #eee; transition: background-color 0.3s; color: #34495e; }
+        dl dt:hover { background-color: #eee; }
+        dl dt.active { background-color: #eaf3f9; color: #2c3e50; border-bottom: none; }
+        dl dd { padding: 15px 20px; background-color: #fff; border-bottom: 1px solid #eee; display: none; margin-left: 0; }
+        dl dt.active + dd { display: block; }
+
+        /* CTA 버튼 스타일 */
+        .cta-button { display: inline-block; background-color: #2ecc71; color: #fff; padding: 15px 30px; border-radius: 8px; text-align: center; text-decoration: none; font-size: 1.2em; font-weight: 700; margin-top: 20px; transition: background-color 0.3s ease; }
+        .cta-button:hover { background-color: #27ae60; }
+        
+        /* 텍스트 강조 */
+        strong { font-weight: 700; color: #2c3e50; }
+        p strong { color: #d35400; }
+        
+        /* 외부 링크 섹션 */
+        .trust-links ul { list-style: none; padding-left: 0; }
+        .trust-links li { margin-bottom: 10px; }
+        .trust-links a { text-decoration: none; color: #3498db; font-weight: 600; }
+        .trust-links a:hover { text-decoration: underline; color: #2980b9; }
+
+        /* 키워드 태그 스타일 */
+        .keyword-tags { margin-top: 30px; padding: 15px; background-color: #fcfcfc; border-radius: 5px; border: 1px solid #eee; }
+        .keyword-tags a { display: inline-block; margin: 5px; padding: 8px 12px; background-color: #ecf0f1; border-radius: 20px; text-decoration: none; color: #555; font-size: 0.9em; transition: background-color 0.3s; }
+        .keyword-tags a:hover { background-color: #bdc3c7; color: #333; }
+        
+        /* 상세 정보 섹션 스타일 */
+        #information-text p { margin-bottom: 20px; text-align: justify; }
+        #information-text dl { padding-left: 20px; border-left: 3px solid #f39c12; }
+        #information-text dt { font-weight: 700; color: #e67e22; margin-bottom: 5px; font-size: 1.1em; }
+        #information-text dd { margin-bottom: 15px; }
+
+    </style>
+</head>
+<body>
+    <header>
+        <h1>중고렌트카 가격 비교 및 추천 전문 플랫폼</h1>
+        <p>현명한 중고차 구매의 새로운 기준. 투명한 시세 분석과 전문 업체 비교로 2026년 최적의 중고렌트카를 찾아드립니다.</p>
+        <nav aria-label="메인 내비게이션">
+            <ul>
+                <li><a href="#service-intro">중고렌트카란?</a></li>
+                <li><a href="#price-info">비용 및 시세 분석</a></li>
+                <li><a href="#car-models">추천 모델별 비교</a></li>
+                <li><a href="#inspection">구매 전 체크리스트</a></li>
+                <li><a href="#faq">자주 묻는 질문</a></li>
+                <li><a href="#reservation">무료 견적 신청</a></li>
+            </ul>
+        </nav>
+    </header>
+
     <main>
-      <h1>Home page</h1>
+        
+        <section id="reservation">
+            <h2>✨ 1분 중고렌트카 무료 견적 신청</h2>
+            <p><strong>중고렌트카</strong> 가격이 궁금하신가요? 지금 바로 희망 모델과 조건을 입력하시면, <strong>전문 업체</strong>들의 **합리적인 견적**을 비교할 수 있습니다. <strong>장기렌트 승계</strong>, <strong>계약 만기 차량</strong> 등 다양한 옵션을 한눈에 확인하세요.</p>
+            
+            <form action="submit-quotation.php" method="POST" aria-label="무료 견적 신청 폼">
+                <div class="form-container">
+                    <div class="form-group">
+                        <label for="car_model">희망 차종 (예: K5, 그랜저, 쏘렌토 등)</label>
+                        <input type="text" id="car_model" name="car_model" placeholder="희망하는 차종을 입력해주세요" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="budget_range">희망 예산 범위</label>
+                        <select id="budget_range" name="budget_range" required>
+                            <option value="">선택</option>
+                            <option value="1천만원 미만">1천만원 미만</option>
+                            <option value="1천만원~2천만원">1천만원~2천만원</option>
+                            <option value="2천만원~3천만원">2천만원~3천만원</option>
+                            <option value="3천만원 이상">3천만원 이상</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="move_date">희망 인수 날짜</label>
+                        <input type="date" id="move_date" name="move_date" value="2026-01-01" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="mileage_pref">희망 주행거리 (연식대비)</label>
+                        <select id="mileage_pref" name="mileage_pref" required>
+                            <option value="">선택</option>
+                            <option value="연간 1만km 미만 (짧음)">연간 1만km 미만 (짧음)</option>
+                            <option value="연간 1~2만km (보통)">연간 1~2만km (보통)</option>
+                            <option value="연간 2만km 이상 (김)">연간 2만km 이상 (김)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">연락처</label>
+                        <input type="tel" id="phone" name="phone" placeholder="010-XXXX-XXXX" pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="options">필수 옵션 (선택)</label>
+                        <input type="text" id="options" name="options" placeholder="예: 선루프, 내비게이션, 통풍시트">
+                    </div>
+                </div>
+                <button type="submit" class="submit-button">중고렌트카 무료 견적 요청</button>
+            </form>
+        </section>
+        
+        <section id="service-intro">
+            <h2>🚗 중고렌트카란 무엇이며, 왜 매력적인가?</h2>
+            <p><strong>중고렌트카</strong>는 <strong>장기렌트 계약</strong>이 만료되거나 중도 해지된 차량을 의미합니다. 일반 중고차와 달리, 렌터카 회사가 차량을 관리하고 정비해왔기 때문에 **투명한 관리 이력**을 갖고 있다는 **장점**이 있습니다. <strong>중고렌트카</strong>는 대기업 렌터카 업체에서 주로 나오며, 정기적인 점검과 소모품 교체가 이루어졌기 때문에 **일반 중고차** 대비 차량 상태가 균일하게 좋다는 평가를 받습니다. 또한 **감가상각비**가 반영되어 **저렴한 가격**에 구매할 수 있다는 매력이 있습니다.</p>
+            
+            <h3>중고렌트카 vs 일반 중고차 vs 장기렌트 승계 비교</h3>
+            <p><strong>중고렌트카</strong>를 구매하는 방법은 크게 <strong>직접 매입</strong>과 <strong>장기렌트 승계</strong>로 나뉩니다. 각 방법의 <strong>장단점</strong>을 비교하여 본인에게 맞는 최적의 구매 방법을 선택하세요.</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>구분</th>
+                        <th>중고렌트카 (직접 매입)</th>
+                        <th>중고렌트카 (장기렌트 승계)</th>
+                        <th>일반 중고차 (개인/상사 매입)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>가격 결정 요인</strong></td>
+                        <td>감가상각 반영된 합리적인 시세, 업체별 매각 정책</td>
+                        <td>잔여 계약 기간, 승계 수수료, 초기 보증금/선납금</td>
+                        <td>판매자의 희망 가격, 시장 시세 변동 폭, 딜러 마진</td>
+                    </tr>
+                    <tr>
+                        <td><strong>차량 관리 이력</strong></td>
+                        <td>투명한 렌터카 회사 관리 이력 (정기 점검 필수)</td>
+                        <td>기존 계약자의 운행 습관에 따라 상이함</td>
+                        <td>개인 운행 이력 불투명 (침수/사고 이력 확인 필수)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>A/S 및 보증</strong></td>
+                        <td>제조사 보증 잔여 기간 적용 가능</td>
+                        <td>기존 계약 조건(보험/보증) 승계</td>
+                        <td>제조사 보증 잔여 기간 적용 가능 (판매자 보증 별도)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>초기 비용</strong></td>
+                        <td>차량가 전액 또는 할부/대출</td>
+                        <td>보증금/선납금 (차량가보다 낮을 수 있음)</td>
+                        <td>차량가 전액 또는 할부/대출</td>
+                    </tr>
+                    <tr>
+                        <td><strong>취득세/보험료</strong></td>
+                        <td>취득세 발생, 개인 보험료 별도</td>
+                        <td>취득세 없음 (리스료에 포함), 보험료 없음 (렌트사 보험)</td>
+                        <td>취득세 발생, 개인 보험료 별도</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+        
+        <section id="price-info">
+            <h2>💰 2026년 중고렌트카 시세 분석 및 구매 비용 가이드</h2>
+            <p><strong>중고렌트카</strong>의 <strong>평균 가격</strong>은 일반 중고차 <strong>시세</strong>보다 다소 저렴한 편입니다. <strong>2026년</strong> 기준으로, <strong>중고렌트카 비용</strong>은 <strong>차량 연식</strong>, <strong>주행거리</strong>, <strong>사고 이력</strong>, 그리고 <strong>옵션</strong> 등 다양한 요인에 의해 결정됩니다. 특히 **장기렌트 만기 차량**은 신차 출고가가 아닌 매각 시점의 시장 가치에 따라 **가격**이 책정되므로 <strong>합리적인 견적</strong>을 비교하는 것이 중요합니다.</p>
+            
+            <h3>중고렌트카 가격 결정 주요 요인 분석</h3>
+            <dl>
+                <dt tabindex="0" aria-expanded="false">주요 차종 및 모델별 감가율</dt>
+                <dd><strong>중고렌트카</strong> 시장에서 가장 인기 있는 모델은 <strong>국산 세단</strong> 및 <strong>SUV</strong>입니다. <strong>K5</strong>, <strong>쏘나타</strong>, <strong>그랜저</strong> 같은 중형 세단은 수요가 많아 비교적 감가율이 낮습니다. 반면, <strong>스타렉스</strong>나 <strong>카니발</strong> 같은 승합차는 용도에 따라 주행거리가 긴 경우가 많아 <strong>가격</strong> 편차가 큽니다. <strong>제네시스 G80</strong>, <strong>벤츠 C클래스</strong>, <strong>BMW 5시리즈</strong> 등 수입차 모델도 <strong>중고렌트카</strong>로 나오며, 신차 대비 <strong>저렴한 금액</strong>으로 구매할 수 있는 좋은 기회가 됩니다. <strong>싼타페</strong>, <strong>쏘렌토</strong>, <strong>투싼</strong>, <strong>스포티지</strong> 같은 <strong>SUV</strong> 모델은 최근 인기로 인해 감가율이 상대적으로 낮아지는 추세입니다.</dd>
+                
+                <dt tabindex="0" aria-expanded="false">주행거리와 연식의 관계</dt>
+                <dd><strong>중고렌트카</strong>의 <strong>평균</strong> 주행거리는 일반 자가용 대비 높은 편입니다. 렌터카 계약이 보통 연간 2만~3만km로 설정되기 때문입니다. 따라서 3년 된 차량이라면 6만~9만km의 주행거리가 일반적입니다. 주행거리가 짧다면 <strong>프리미엄</strong>이 붙어 <strong>예상 비용</strong>이 높아지고, 주행거리가 길다면 <strong>저렴한 가격</strong>에 구매할 수 있습니다. <strong>중고렌트카</strong> 구매 시에는 연식 대비 주행거리가 합리적인지 확인해야 합니다. <strong>아반떼</strong>, <strong>K3</strong> 같은 준중형 모델은 주행거리가 길어도 유지보수 비용이 낮아 인기가 좋습니다.</dd>
+                
+                <dt tabindex="0" aria-expanded="false">옵션 및 차량 관리 상태</dt>
+                <dd><strong>중고렌트카</strong>는 일반적으로 기본 옵션으로 출고되는 경우가 많지만, 최근에는 <strong>내비게이션</strong>, <strong>선루프</strong>, <strong>통풍시트</strong> 등 편의 옵션이 추가된 차량도 많습니다. 옵션이 풍부할수록 <strong>중고차 가격</strong>이 높아집니다. 또한, 렌터카 회사의 <strong>전문 관리</strong>를 받았는지, <strong>무사고</strong> 차량인지 여부가 **중고렌트카 견적**에 가장 큰 영향을 미칩니다. <strong>중고렌트카 전문 업체</strong>를 통해 구매하면 이러한 이력을 투명하게 확인할 수 있습니다.</dd>
+            </dl>
+            
+            <a href="#reservation" class="cta-button" aria-label="정확한 중고렌트카 시세 분석 및 견적 요청">정확한 중고렌트카 시세 산출 받기</a>
+        </section>
+
+        <section id="car-models">
+            <h2>🗺️ 2026년 인기 중고렌트카 모델별 상세 비교 및 추천</h2>
+            <p><strong>중고렌트카</strong> 시장에서 가장 많이 거래되는 주요 모델들의 <strong>장단점</strong>을 분석하고, <strong>내돈내산 후기</strong>를 바탕으로 각 모델의 <strong>평균 시세</strong>와 적합한 구매자를 추천합니다. <strong>중고렌트카</strong>는 신차 구매 시 <strong>할인</strong>이 적용되지 않는 모델을 <strong>저렴한 가격</strong>에 구매할 수 있는 좋은 기회가 됩니다.</p>
+
+            <h3>1. 중형 세단: K5, 쏘나타 (국민 중형차의 대표주자)</h3>
+            <p><strong>K5</strong>와 <strong>쏘나타</strong>는 <strong>중고렌트카</strong> 시장에서 가장 흔하게 찾아볼 수 있는 모델입니다. <strong>중고렌트카</strong>는 주로 법인이나 개인 사업자가 <strong>장기렌트</strong>로 이용했기 때문에, 주행거리가 다소 길더라도 꾸준한 관리를 받은 차량이 많습니다. <strong>K5 DL3</strong> 모델은 세련된 디자인으로 인기가 높으며, <strong>쏘나타 디 엣지</strong> 모델은 다양한 첨단 기능이 탑재되어 있습니다. <strong>평균 가격대</strong>는 연식과 주행거리에 따라 1,500만원대에서 2,500만원대 사이에 형성됩니다. <strong>중고렌트카 전문 업체</strong>를 통해 구매하면 <strong>보증</strong>을 추가로 받을 수 있습니다.</p>
+            
+            <h3>2. 대형 세단: 그랜저, K8 (성공의 상징, 저렴한 가격으로 경험)</h3>
+            <p><strong>그랜저</strong>와 <strong>K8</strong>은 신차 가격이 높아 <strong>중고차 가격</strong>의 <strong>감가상각</strong> 효과가 두드러집니다. <strong>중고렌트카</strong>로 <strong>그랜저 IG</strong> 또는 <strong>그랜저 GN7</strong> 모델을 구매하면 신차 대비 <strong>저렴한 비용</strong>으로 대형 세단의 승차감을 경험할 수 있습니다. <strong>K8</strong>은 최근 <strong>장기렌트</strong> 계약 만기가 늘어나면서 <strong>중고렌트카</strong> 매물이 증가하고 있습니다. <strong>제네시스 G80</strong>도 <strong>중고렌트카</strong>로 인기가 많으며, <strong>고급 세단</strong>을 합리적인 <strong>금액</strong>에 찾는 소비자에게 <strong>추천</strong>됩니다. <strong>중고렌트카</strong>를 구매할 때는 <strong>정밀 점검</strong>을 통해 하부 부품의 노후 여부를 확인하는 것이 중요합니다.</p>
+            
+            <h3>3. SUV: 쏘렌토, 싼타페, 투싼, 스포티지 (패밀리카의 대세)</h3>
+            <p><strong>SUV</strong>는 <strong>중고렌트카</strong> 시장에서도 꾸준한 인기를 누리고 있습니다. <strong>쏘렌토 MQ4</strong>와 <strong>싼타페 TM</strong>은 가족용 차량으로 선호도가 높으며, <strong>중고렌트카</strong>로 구매 시 <strong>가성비</strong>가 좋습니다. <strong>투싼 NX4</strong>와 <strong>스포티지 NQ5</strong>는 <strong>준중형 SUV</strong> 시장의 강자로, <strong>저렴한 가격</strong>과 실용성으로 인기를 얻고 있습니다. <strong>팰리세이드</strong>나 <strong>카니발</strong> 같은 대형 차량도 <strong>중고렌트카</strong>로 나오며, <strong>캠핑</strong>이나 <strong>레저</strong>를 즐기는 소비자들에게 좋은 <strong>선택지</strong>가 됩니다. <strong>중고렌트카</strong> <strong>내돈내산 후기</strong>를 보면, <strong>SUV</strong> 모델은 주행거리가 길어도 비교적 차량 상태가 좋다는 평가가 많습니다.</p>
+            
+            <h3>4. 수입차: 벤츠 E클래스, BMW 5시리즈, 아우디 A6</h3>
+            <p><strong>벤츠 E클래스</strong> (W213), <strong>BMW 5시리즈</strong> (G30), <strong>아우디 A6</strong> 등 수입차 모델도 <strong>중고렌트카</strong>로 자주 등장합니다. 수입차는 신차 가격이 매우 비싸기 때문에 <strong>중고렌트카</strong>로 구매 시 <strong>감가상각</strong> 효과가 커서 <strong>저렴한 비용</strong>으로 <strong>고급차</strong>를 소유할 수 있습니다. 다만 수입차는 국산차 대비 수리비 및 부품비가 높기 때문에 <strong>A/S 보증 기간</strong>이 남아있는 차량을 선택하거나 <strong>중고차 보증</strong> <strong>상품</strong>에 가입하는 것이 필수입니다. <strong>중고렌트카 전문 업체</strong>를 통해 구매하면 <strong>보증</strong> 혜택을 받을 수 있습니다.</p>
+
+            <p><strong>주요 연관 키워드 (SEO 강화를 위한 자연스러운 문맥 삽입):</strong></p>
+            <div class="keyword-tags" aria-label="중고렌트카 연관 키워드">
+                <a href="#reservation">중고렌트카 가격</a>
+                <a href="#price-info">중고차 시세</a>
+                <a href="#service-intro">장기렌트 승계 장점</a>
+                <a href="#service-intro">장기렌트 승계 단점</a>
+                <a href="#inspection">중고차 구매 체크리스트</a>
+                <a href="#inspection">중고차 보증</a>
+                <a href="#car-models">K5 중고렌트카</a>
+                <a href="#car-models">쏘나타 중고렌트카</a>
+                <a href="#car-models">그랜저 중고렌트카</a>
+                <a href="#car-models">K8 중고렌트카</a>
+                <a href="#car-models">제네시스 G80 중고차</a>
+                <a href="#car-models">쏘렌토 중고렌트카</a>
+                <a href="#car-models">싼타페 중고렌트카</a>
+                <a href="#car-models">투싼 중고렌트카</a>
+                <a href="#car-models">스포티지 중고렌트카</a>
+                <a href="#car-models">팰리세이드 중고렌트카</a>
+                <a href="#car-models">카니발 중고렌트카</a>
+                <a href="#car-models">아반떼 중고렌트카</a>
+                <a href="#car-models">K3 중고렌트카</a>
+                <a href="#car-models">아이오닉5 중고렌트카</a>
+                <a href="#car-models">GV70 중고렌트카</a>
+                <a href="#car-models">벤츠 E클래스 중고렌트카</a>
+                <a href="#car-models">BMW 5시리즈 중고렌트카</a>
+                <a href="#car-models">수입차 중고렌트카</a>
+                <a href="#price-info">중고차 평균 시세</a>
+                <a href="#faq">중고차 할부</a>
+                <a href="#faq">중고차 보험료</a>
+                <a href="#inspection">중고차 내돈내산 후기</a>
+                <a href="#service-intro">중고차 전문 업체 추천</a>
+                <a href="#price-info">중고차 저렴한 곳</a>
+                <a href="#price-info">중고차 싼곳</a>
+                <a href="#car-models">레이 중고렌트카</a>
+                <a href="#car-models">모닝 중고렌트카</a>
+                <a href="#car-models">셀토스 중고렌트카</a>
+                <a href="#car-models">XM3 중고렌트카</a>
+                <a href="#car-models">토레스 중고렌트카</a>
+                <a href="#car-models">G70 중고렌트카</a>
+                <a href="#car-models">EQS 중고렌트카</a>
+                <a href="#car-models">A6 중고렌트카</a>
+                <a href="#price-info">중고차 예상 비용</a>
+                <a href="#car-models">중고차 장단점 비교</a>
+                <a href="#car-models">중고차 가성비 추천</a>
+                <a href="#faq">중고차 환불 규정</a>
+                <a href="#price-info">중고차 할인 혜택</a>
+                <a href="#reservation">중고차 상담 신청</a>
+            </div>
+        </section>
+        
+        <section id="information-text">
+            <h2>📜 심층 정보: 성공적인 중고렌트카 구매를 위한 전문가 가이드 (2026년)</h2>
+            
+            <p><strong>중고렌트카</strong> 시장은 2026년에도 꾸준히 성장하고 있습니다. 특히 신차 출고 지연 현상이 지속되면서, <strong>중고렌트카</strong>는 신차에 준하는 품질의 차량을 빠르게 확보할 수 있는 대안으로 각광받고 있습니다. 그러나 일반 중고차와는 다른 특성을 가지고 있기 때문에, <strong>성공적인 구매</strong>를 위해서는 <strong>전문적인 지식</strong>이 필요합니다. 저희 비교센터는 <strong>중고렌트카</strong> 구매 시 반드시 고려해야 할 핵심 정보를 제공하여 고객님의 현명한 선택을 돕습니다.</p>
+
+            <h3>1. <strong>중고렌트카</strong>의 <strong>장점</strong>과 <strong>단점</strong> 심층 분석</h3>
+            <p><strong>중고렌트카</strong>의 가장 큰 <strong>장점</strong>은 <strong>투명한 관리 이력</strong>입니다. 대형 렌터카 업체들은 정기적인 정비와 소모품 교체를 의무적으로 진행하며, 이는 차량의 성능 유지에 큰 도움이 됩니다. 또한 신차 대비 <strong>감가상각</strong>이 적용되어 <strong>저렴한 가격</strong>에 구매할 수 있다는 매력이 있습니다. 하지만 <strong>단점</strong>도 명확합니다. <strong>중고렌트카</strong>는 보험 이력이 렌터카 회사로 일괄 등록되어 있기 때문에, 정확한 사고 내용을 파악하기 어렵습니다. 또한 <strong>일반 중고차</strong> 대비 주행거리가 긴 경우가 많고, 과거에 여러 운전자가 사용했을 가능성이 높아 차량 내부 상태가 다소 불량할 수 있습니다. <strong>K5</strong>나 <strong>쏘나타</strong> 같은 인기 모델의 경우, <strong>내돈내산 후기</strong>를 보면 차량의 내장재 손상 여부를 꼼꼼히 확인해야 한다는 조언이 많습니다. <strong>중고렌트카</strong> 구매 시에는 <strong>장단점</strong>을 명확히 이해하고 <strong>비교</strong>해야 합니다.</p>
+
+            <h3>2. 2026년 <strong>중고렌트카</strong> 시장 트렌드: 전기차와 <strong>장기렌트 승계</strong></h3>
+            <p>2026년 <strong>중고렌트카</strong> 시장의 가장 큰 변화는 <strong>전기차</strong>의 등장입니다. <strong>아이오닉5</strong>, <strong>EV6</strong>, <strong>모델3</strong> 등 전기차 모델들이 <strong>장기렌트</strong> 계약 만기로 <strong>중고차</strong> 시장에 대거 유입되고 있습니다. 전기차는 내연기관차 대비 감가율이 높기 때문에 <strong>저렴한 가격</strong>에 구매할 수 있는 기회입니다. 또한 <strong>장기렌트 승계</strong> 시장이 활성화되면서, <strong>중고렌트카</strong>를 직접 구매하는 것 외에 남은 계약 기간을 승계받아 차량을 이용하는 방법도 인기를 얻고 있습니다. <strong>장기렌트 승계</strong>는 초기 <strong>비용</strong> 부담이 적고 보험료가 면제된다는 <strong>장점</strong>이 있지만, <strong>계약 기간</strong> 동안 차량을 소유할 수 없고 중도 해지 시 위약금이 발생한다는 <strong>단점</strong>이 있습니다.</p>
+            
+            <h3>3. <strong>중고렌트카</strong> 구매 시 <strong>전문 업체</strong> 선택 기준과 <strong>사고 이력</strong> 확인 방법</h3>
+            <p><strong>중고렌트카</strong> 구매 시 가장 중요한 것은 <strong>전문 업체</strong>의 신뢰도입니다. <strong>중고렌트카 전문 업체</strong>는 렌터카 회사와 직접 거래하여 차량을 매입하므로, <strong>가격 투명성</strong>이 높습니다. <strong>중고차 매매상사</strong>에서 구매할 경우 딜러 마진이 추가될 수 있지만, <strong>전문 업체</strong>는 대규모로 매입하기 때문에 <strong>할인 혜택</strong>이나 <strong>이벤트</strong>를 통해 <strong>저렴한 가격</strong>에 구매할 수 있습니다. <strong>중고렌트카</strong>의 <strong>사고 이력</strong> 확인은 <strong>카히스토리</strong>(보험개발원)를 통해 반드시 확인해야 합니다. <strong>중고렌트카</strong>는 렌터카 회사 명의로 보험이 가입되어 있어 <strong>내돈내산 후기</strong>를 참고하거나 <strong>전문 업체</strong>에 <strong>사고 이력</strong> 조회를 요청하여 꼼꼼하게 확인하는 것이 중요합니다.</p>
+
+            <h3>4. <strong>중고렌트카</strong> 모델별 특징 (30+ 모델 키워드 활용)</h3>
+            <p><strong>중고렌트카</strong> 시장은 다양한 모델을 <strong>비교</strong>하고 선택할 수 있습니다. <strong>준중형 세단</strong>으로는 <strong>아반떼 CN7</strong>, <strong>K3 GT</strong> 등이 <strong>가성비</strong>가 뛰어나며, 주행거리가 긴 경우 <strong>저렴한 금액</strong>에 구매할 수 있습니다. <strong>중형 세단</strong>인 <strong>K5 DL3</strong>, <strong>쏘나타 DN8</strong>은 <strong>중고렌트카</strong> 매물이 많아 <strong>가격</strong> <strong>경쟁력</strong>이 높습니다. <strong>대형 세단</strong>인 <strong>그랜저 IG</strong>, <strong>K8</strong>은 신차 대비 <strong>감가상각</strong>이 커서 <strong>예상 비용</strong> 절감 효과가 큽니다. <strong>SUV</strong> 모델로는 <strong>투싼 NX4</strong>, <strong>스포티지 NQ5</strong>, <strong>싼타페 TM</strong>, <strong>쏘렌토 MQ4</strong>가 인기입니다. 특히 <strong>팰리세이드</strong>나 <strong>카니발</strong> 같은 대형 <strong>RV</strong> 차량은 <strong>패밀리카</strong>로 인기가 많아 <strong>중고렌트카</strong> 매물도 활발히 거래됩니다. <strong>경차</strong>인 <strong>레이</strong>, <strong>모닝</strong>도 <strong>중고렌트카</strong>로 나오며, <strong>출퇴근용</strong>이나 <strong>세컨카</strong>로 적합합니다. <strong>수입차</strong>로는 <strong>벤츠 C클래스</strong>, <strong>E클래스</strong>, <strong>BMW 3시리즈</strong>, <strong>5시리즈</strong>, <strong>아우디 A6</strong> 등이 <strong>중고렌트카</strong> 시장에서 <strong>저렴한 가격</strong>으로 구매할 수 있는 기회를 제공합니다. <strong>중고렌트카</strong>를 구매할 때는 <strong>시세</strong>를 <strong>비교</strong>하고 <strong>전문 업체</strong>의 <strong>추천</strong>을 받아 <strong>장단점</strong>을 고려하는 것이 중요합니다.</p>
+
+            <h3>5. 결론: <strong>중고렌트카</strong>, 현명한 소비의 시작</h3>
+            <p><strong>중고렌트카</strong>는 <strong>신차</strong>와 <strong>일반 중고차</strong>의 <strong>장단점</strong>을 모두 갖춘 매력적인 대안입니다. <strong>중고렌트카</strong>를 구매하는 것은 <strong>저렴한 가격</strong>으로 <strong>고품질</strong>의 차량을 소유할 수 있는 현명한 소비입니다. 저희 <strong>전문 비교센터</strong>는 <strong>중고렌트카</strong> 시장의 <strong>시세</strong>를 투명하게 공개하고, <strong>내돈내산 후기</strong>를 바탕으로 <strong>믿을 수 있는 업체</strong>를 <strong>추천</strong>합니다. 지금 바로 <strong>무료 견적</strong>을 통해 <strong>2026년</strong> 최신 정보를 바탕으로 <strong>중고렌트카</strong>를 만나보세요.</p>
+            
+            <hr>
+            
+            <h3>공인된 신뢰성 외부 사이트 참고 자료</h3>
+            <div class="trust-links">
+                <p>성공적인 <strong>중고차</strong> 구매를 위해 공신력 있는 기관의 정보를 참고하세요:</p>
+                <ul>
+                    <li><a href="https://www.carhistory.or.kr/" target="_blank">보험개발원 카히스토리: 차량 사고 이력 및 보험 처리 내역 조회</a></li>
+                    <li><a href="https://www.koccon.net/" target="_blank">한국소비자원: 중고차 거래 피해 예방 및 분쟁 조정 정보</a></li>
+                    <li><a href="https://www.law.go.kr/법령/자동차관리법" target="_blank">법제처: 자동차 관리법 및 관련 법규</a></li>
+                    <li><a href="https://www.mlit.go.kr/" target="_blank">국토교통부: 자동차 관련 행정 정보 및 정책</a></li>
+                    <li><a href="https://post.naver.com/my.nhn?memberNo=38271781" target="_blank">네이버 자동차 포스트: 전문가 리뷰 및 최신 모델 정보</a></li>
+                </ul>
+            </div>
+        </section>
+        
+        <section id="faq">
+            <h2>❓ 자주 묻는 질문 (FAQ) - 중고렌트카 구매 편</h2>
+            <p><strong>중고렌트카</strong> 구매 시 고객님들이 가장 궁금해하시는 질문들을 모았습니다. 2026년 기준 최신 정보를 참고하세요.</p>
+            <dl>
+                <dt tabindex="0" aria-expanded="false">Q1. <strong>중고렌트카</strong>는 일반 <strong>중고차</strong>와 어떤 <strong>차이점</strong>이 있나요?</dt>
+                <dd>A. <strong>중고렌트카</strong>는 렌터카 회사 소유로 운행되던 차량이므로, 일반 <strong>중고차</strong>(개인 소유)와 달리 <strong>차량 관리 이력</strong>이 보다 체계적으로 기록됩니다. 또한, <strong>중고렌트카</strong>는 신차 출고 시 렌터카 업체 명의로 등록되므로 일반 중고차 구매 시 확인하는 **개인 보험 이력**과는 다소 차이가 있습니다. <strong>중고렌트카</strong>는 취득세 면제, 보험료 절감 등 <strong>장점</strong>이 있지만, <strong>번호판</strong>(하, 호, 허)이 렌터카 전용 번호판으로 유지될 수 있다는 <strong>단점</strong>이 있습니다.</dd>
+                
+                <dt tabindex="0" aria-expanded="false">Q2. <strong>중고렌트카</strong> 구매 시 <strong>가장 저렴한 가격</strong>으로 구매할 수 있는 시기는 언제인가요?</dt>
+                <dd>A. <strong>중고렌트카</strong>는 보통 계약 만료 시점에 대량으로 매각되므로, 렌터카 업체의 <strong>매각 시즌</strong>(주로 분기 말이나 연말)을 활용하면 <strong>저렴한 가격</strong>에 구매할 수 있습니다. 특히 <strong>장기렌트 승계</strong> 차량의 경우, 잔여 계약 기간이 짧거나 차량 상태가 좋은 경우 <strong>할인 혜택</strong>이나 <strong>이벤트</strong>를 통해 <strong>저렴한 금액</strong>에 인수할 수 있습니다.</dd>
+                
+                <dt tabindex="0" aria-expanded="false">Q3. <strong>중고렌트카</strong>도 <strong>A/S 보증</strong>을 받을 수 있나요?</dt>
+                <dd>A. 네, 가능합니다. <strong>중고렌트카</strong>는 렌터카 업체가 관리하므로 <strong>제조사 보증 기간</strong>이 남아있는 경우가 많습니다. <strong>중고차 전문 업체</strong>를 통해 구매 시, <strong>추가 보증 상품</strong>에 가입하여 <strong>보증 기간</strong>을 연장할 수 있습니다. <strong>내돈내산 후기</strong>를 보면, <strong>중고차 보증</strong> 가입은 필수라는 의견이 지배적입니다. <strong>중고렌트카</strong> 구매 시 <strong>전문 업체</strong>의 <strong>추천</strong>을 받아 <strong>보증 상품</strong>을 꼼꼼히 <strong>비교</strong>하세요.</dd>
+                
+                <dt tabindex="0" aria-expanded="false">Q4. <strong>중고렌트카</strong> <strong>내돈내산 후기</strong>를 보니, <strong>사고 이력</strong> 확인이 어렵다고 하던데 사실인가요?</dt>
+                <dd>A. <strong>중고렌트카</strong>는 렌터카 회사 명의로 보험이 가입되어 있어 <strong>개인 보험 이력</strong> 조회가 어렵습니다. 하지만 <strong>카히스토리</strong>(보험개발원)를 통해 <strong>사고 이력</strong> 조회가 가능합니다. <strong>전문 업체</strong>에서는 차량의 <strong>사고 이력</strong>을 투명하게 공개하므로, <strong>중고차 전문 업체</strong>를 통해 구매하는 것이 안전합니다. <strong>중고차</strong> <strong>장단점</strong>을 고려하여 구매하세요.</dd>
+                
+                <dt tabindex="0" aria-expanded="false">Q5. <strong>중고렌트카</strong> 구매 시 <strong>할부</strong>나 <strong>대출</strong>도 가능한가요?</dt>
+                <dd>A. 네, 가능합니다. <strong>중고렌트카</strong>를 구매할 때는 일반 <strong>중고차</strong> 구매와 동일하게 <strong>할부</strong>나 <strong>대출</strong>을 이용할 수 있습니다. <strong>중고차 전문 업체</strong>에서는 다양한 <strong>할인 혜택</strong>과 더불어 <strong>할부 상품</strong>을 <strong>추천</strong>해 드립니다. <strong>중고렌트카</strong> 구매 시 <strong>예상 비용</strong>을 고려하여 <strong>할부 조건</strong>을 꼼꼼히 확인하세요.</dd>
+            </dl>
+        </section>
+
+        <section id="check-list-download">
+            <h2>🎁 중고렌트카 구매 전 필수 체크리스트 다운로드</h2>
+            <p><strong>중고렌트카</strong> 구매 시 놓치기 쉬운 50가지 항목을 담은 **전문가 체크리스트**를 무료로 다운로드하세요. 성공적인 구매를 위한 완벽한 가이드입니다.</p>
+            <form action="download-checklist.php" method="POST" aria-label="체크리스트 다운로드 폼">
+                <div class="form-group">
+                    <label for="download_email">이메일 주소</label>
+                    <input type="email" id="download_email" name="download_email" placeholder="체크리스트를 받을 이메일을 입력하세요" required>
+                </div>
+                <button type="submit" class="submit-button">체크리스트 받기 (무료)</button>
+            </form>
+        </section>
+        
+        <a href="#reservation" class="cta-button" aria-label="최종 중고렌트카 무료 견적 신청">지금 바로 중고렌트카 시세 비교하기</a>
+
     </main>
-  </body>
-</html>
+
+    <script>
+        // FAQ 아코디언 기능 (접기/펼치기)
+        document.querySelectorAll('dl dt').forEach((dt) => {
+            dt.addEventListener('click', () => {
+                const isActive = dt.classList.toggle('active');
+                dt.setAttribute('aria-expanded', isActive);
+            });
+            dt.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    dt.click();
+                }
+            });
+        });
+    </script>
+  
